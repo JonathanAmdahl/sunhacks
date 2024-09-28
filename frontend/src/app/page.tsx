@@ -1,10 +1,10 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import ImageGenerationDemo from "./components/ImageGeneration";
-import { useRecordVoice } from './hooks/useRecordVoice';
+import ImageGenerationDemo from "../components/ImageGeneration";
+import { useRecordVoice } from '../hooks/useRecordVoice';
 
-const TranscribeExample = dynamic(() => import('./components/Transcribe'), { ssr: false })
+const TranscribeExample = dynamic(() => import('../components/Transcribe'), { ssr: false })
 
 export default function Home() {
   //transcription 
