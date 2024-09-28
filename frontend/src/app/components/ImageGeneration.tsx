@@ -3,12 +3,21 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import { useState, useEffect } from "react";
 import styles from "./ImageGenerationDemo.module.css"; // Import the CSS module
+import Image from "next/image";
 
-export default function ImageGenerationDemo() {
+interface ImageGenerationDemoProps {
+  text: string;
+}
+
+export default function ImageGenerationDemo({ text }: ImageGenerationDemoProps) {
+  const width = 1024;
+  const height = 1024;
   dotenv.config(); // Load environment variables from .env file
+  const [imageUrl, setImageUrl] = useState("")
+  const [prompt, setPrompt] = useState("")
 
-  const [imageUrl, setImageUrl] = useState("");
-  const [prompt, setPrompt] = useState("a tall man walking over to his child");
+  const basePrompt = "";
+  setPrompt(basePrompt + text);
 
   const openai = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -18,11 +27,14 @@ export default function ImageGenerationDemo() {
   useEffect(() => {
     async function generateImage() {
       try {
+        if(prompt === '') {
+          return;
+        }
         const response = await openai.images.generate({
           model: "dall-e-3",
           prompt: prompt, // Using the state variable for the prompt
           n: 1,
-          size: "1024x1024",
+          size: `${width}x${height}`,
         });
 
         const image_url = response.data[0]?.url || "";
@@ -42,7 +54,7 @@ export default function ImageGenerationDemo() {
         <p>{prompt}</p> {/* Display the prompt dynamically */}
       </div>
       {imageUrl ? (
-        <img className={styles.image} src={imageUrl} alt="Generated" />
+        <Image className={styles.image} src={imageUrl} width={width} height={height} alt="Generated" />
       ) : (
         <p>Loading...</p>
       )}

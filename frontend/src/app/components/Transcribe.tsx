@@ -1,10 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRecordVoice } from '../hooks/useRecordVoice';
 
-const TranscribeExample = () => {
-  const { startRecording, stopRecording, text } = useRecordVoice();
+interface TranscribeProps {
+  startRecording: () => void;
+  stopRecording: () => void;
+  text: string;
+}
+
+const TranscribeExample: React.FC<TranscribeProps> = ({ startRecording, stopRecording, text }) => {
   const [isRecording, setIsRecording] = useState(false);
 
   const handleClick = () => {
