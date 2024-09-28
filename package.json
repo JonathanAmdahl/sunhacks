@@ -11,5 +11,8 @@
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0"
   }
 }
