@@ -3,9 +3,6 @@ import Link from "next/link";
 import React from "react";
 
 export default function Home() {
-  //transcription 
-  const { startRecording, stopRecording, text } = useRecordVoice();
-
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 font-body">
       {/* Header */}
