@@ -14,8 +14,8 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        body: ['var(--font-outfit)'],
-        header: ['var(--font-paytone)']
+        body: ["var(--font-outfit)"],
+        header: ["var(--font-paytone)"],
       },
     },
   },

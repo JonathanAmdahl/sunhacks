@@ -12,8 +12,8 @@ export default function Home() {
           <Image
             src="/images/Owl.png"
             alt="Fable logo"
-            width={100}
-            height={100}
+            width={75}
+            height={75}
           />
           <h1 className="text-3xl font-bold font-header">Fable</h1>
         </div>
@@ -31,7 +31,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-16 w-full max-w-6xl mx-auto h-[720px]">
+      <main className="mt flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-16 w-full max-w-6xl mx-auto h-[600px]">
         {/* Left Content (Text) */}
         <div className="text-center sm:text-left sm:w-1/2">
           <h1 className="text-4xl font-extrabold text-[#8E60C0] leading-tight font-header">
@@ -52,12 +52,12 @@ export default function Home() {
         </div>
 
         {/* Right Content (Image) */}
-        <div className="sm:w-1/2 flex justify-center sm:justify-end">
+        <div className="sm:w-1/2 flex justify-center sm:justify-end mt-0">
           <Image
             src="/images/illustration.png"
             alt="Fable Owl illustration"
-            width={700}
-            height={700}
+            width={450}
+            height={450}
             className="rounded-3xl"
             priority
           />
@@ -66,13 +66,13 @@ export default function Home() {
 
       {/* How It Works Section */}
       <section className="bg-[#8E60C0] text-white py-16 mt-16">
-        <div className="w-full max-w-6xl mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-16">
+        <div className="w-full max-w-6xl mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-16 h-[600px]">
           {/* Left Content */}
           <div className="sm:w-1/2 text-center sm:text-left">
-            <h2 className="text-4xl font-bold mb-6 font-header">
+            <h2 className="text-5xl font-bold mb-6 font-header">
               How it works
             </h2>
-            <p className="text-lg mb-8">
+            <p className="text-xl mb-8">
               Fable uses a combination of OpenAI tools for all your storytelling
               needs.
             </p>
@@ -87,22 +87,22 @@ export default function Home() {
           {/* Right Content */}
           <div className="sm:w-1/2 text-left space-y-8">
             <div>
-              <h3 className="text-xl font-bold mb-2 font-header">Author.</h3>
-              <p className="text-base">
+              <h3 className="text-3xl font-bold mb-2 font-header">Author.</h3>
+              <p className="text-xl">
                 Talk to transcribe and illustrate your storytelling in real
                 time.
               </p>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 font-header">Generate.</h3>
-              <p className="text-base">
+              <h3 className="text-3xl font-bold mb-2 font-header">Generate.</h3>
+              <p className="text-xl">
                 Bring your existing stories to life with custom voices and
                 illustrations.
               </p>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 font-header">Save.</h3>
-              <p className="text-base">
+              <h3 className="text-3xl font-bold mb-2 font-header">Save.</h3>
+              <p className="text-xl">
                 Collect all your authored and generated stories all in one
                 place.
               </p>

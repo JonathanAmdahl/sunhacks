@@ -5,15 +5,15 @@ import { Outfit, Paytone_One } from "next/font/google";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  display: 'swap',
+  display: "swap",
   variable: "--font-outfit",
 });
 
 const paytone = Paytone_One({
   subsets: ["latin"],
-  display: 'swap',
+  display: "swap",
   variable: "--font-paytone",
-  weight: ['400']
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} ${paytone.variable}`}>{children}</body>
+      <body className={`${outfit.variable} ${paytone.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
