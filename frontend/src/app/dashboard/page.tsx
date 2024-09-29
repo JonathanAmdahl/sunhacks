@@ -82,9 +82,6 @@ export default function Dashboard() {
   };
 
   // Close the presentation pop-up
-  const closePresentationSettings = () => {
-    setIsPresentationOpen(false);
-  };
 
   // Close popups when clicking outside
   useEffect(() => {

@@ -25,9 +25,11 @@ export default function Home() {
           <Link href="/login">
             <p className="hover:underline font-body">Log In</p>
           </Link>
-          <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
-            Register Now
-          </p>
+          <Link href="/register">
+            <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
+              Register Now
+            </p>
+          </Link>
         </nav>
       </header>
 
