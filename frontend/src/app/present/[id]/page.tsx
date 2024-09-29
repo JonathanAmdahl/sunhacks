@@ -60,6 +60,7 @@ export default function Present() {
     if (book && book.pages && book.pages[page]) {
       setText(book.pages[page].text);
       setImage(book.pages[page].imageUrl);
+      console.log("Fetched Image URL:", book.pages[page].imageUrl); // Add this line
     }
   }, [book, page]);
 
