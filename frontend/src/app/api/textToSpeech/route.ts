@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { ElevenLabsClient } from 'elevenlabs';
 import { v4 as uuid } from 'uuid';
 import * as path from 'path';
+import { createWriteStream } from 'fs';
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
     // This part would work in local development, but it's not recommended for production in serverless environments.
     // You might want to use cloud storage like S3 instead.
     if (process.env.NODE_ENV === 'development') {
-      const fileStream = require('fs').createWriteStream(filePath);
+      const fileStream = createWriteStream(filePath);
 
       // Pipe the audio stream into the file
       audioStream.pipe(fileStream);

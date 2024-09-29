@@ -11,6 +11,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.5",
+    "elevenlabs": "^0.16.0",
     "google": "^2.1.0",
     "next": "14.2.13",
     "openai": "^4.65.0",
@@ -21,6 +22,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "postcss": "^8",

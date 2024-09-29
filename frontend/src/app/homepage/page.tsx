@@ -1,15 +1,20 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Home() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem("token")));
+  }, []);
+
   const logout = () => {
     localStorage.removeItem("token");
+    setIsLoggedIn(false);
     window.location.href = "/homepage";
   };
-
-  const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 font-body">

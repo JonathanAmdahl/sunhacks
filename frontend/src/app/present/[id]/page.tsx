@@ -24,8 +24,8 @@ interface Page {
 export default function Present() {
   const [book, setBook] = useState<Book | null>(null);
   const [page, setPage] = useState(0);
-  const [audioUrl, setAudioUrl] = useState(null);
-  const [isPlayerVisible, setIsPlayerVisiblse] = useState(false);
+  const [, setAudioUrl] = useState(null);
+  const [, setIsPlayerVisiblse] = useState(false);
   const [text, setText] = useState("Loading...");
   const [image, setImage] = useState("");
 
