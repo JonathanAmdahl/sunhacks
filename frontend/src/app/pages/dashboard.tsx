@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-export default function dashboard() {
+export default function CreateStory() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#101010] text-white">
+    <div className="flex min-h-screen flex-col bg-gray-700 text-white">
       {/* Header */}
       <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
@@ -39,13 +39,13 @@ export default function dashboard() {
             >
               <div>
                 <h2 className="text-2xl font-bold">Title...</h2>
-                <p className="text-md text-[#A260DB]">
+                <p className="text-md text-purple-500">
                   Description of the Fable...
                 </p>
               </div>
               <div className="flex items-center gap-4">
                 {/* Edit and Delete Icons */}
-                <button className="text-[#8E60C0] hover:bg-[#7A4FA8]">
+                <button className="text-purple-600 hover:text-purple-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -84,7 +84,7 @@ export default function dashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#101010] text-white py-6">
+      <footer className="bg-gray-900 text-white py-6">
         <div className="flex justify-between items-center max-w-4xl mx-auto px-8">
           <p>&copy; 2024 Fable, Inc. All rights reserved.</p>
           <nav className="flex gap-6">
