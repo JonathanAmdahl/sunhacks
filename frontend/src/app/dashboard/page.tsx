@@ -27,8 +27,11 @@ export default function Dashboard() {
   // Function to fetch fables for the current user
   const fetchUserFables = async () => {
     // Replace this with your data fetching logic (e.g., API call)
-    const response = await fetch(`/api/fables?userId=${userId}`);
+    const response = await fetch(
+      `http://localhost:3001/books?userId=${userId}`
+    );
     const data = await response.json();
+    console.log(data);
     setFables(data);
   };
 
@@ -163,25 +166,27 @@ export default function Dashboard() {
                 <p className="text-md text-[#A260DB]">{fable.description}</p>
               </div>
               <div className="flex items-center gap-4">
-                <button
-                  onClick={openPresentationSettings}
-                  className="text-green-600 hover:text-green-800"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
+                <Link href={`/present/${fable.id}`}>
+                  <button
+                    onClick={openPresentationSettings}
+                    className="text-green-600 hover:text-green-800"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 3l14 9-14 9V3z"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 3l14 9-14 9V3z"
+                      />
+                    </svg>
+                  </button>
+                </Link>
                 <button
                   onClick={() => openModal(fable)}
                   className="text-[#A260DB] hover:text-[#8E60C0]"
