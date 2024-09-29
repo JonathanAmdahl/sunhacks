@@ -43,11 +43,9 @@ export default function Home() {
             AI-powered storytelling platform, or generate your own!
           </p>
           <Link href="/create-story">
-            {" "}
-            {/* Link to new page */}
-            <a className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
+            <div className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
               Create your story!
-            </a>
+            </div>
           </Link>
         </div>
 
