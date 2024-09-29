@@ -5,8 +5,7 @@ import Transcribes from "@/components/Transcribes";
 import { useRecordVoice } from "@/hooks/useRecordVoice";
 import { useState, useEffect } from "react";
 import OpenAI from "openai";
-
-//FINISH MOVING PICTURE LOGIC HERE SO U CAN SAVE TO THE ARRAY
+import { useRouter } from 'next/navigation';
 
 interface StoryItem {
   text: string;
@@ -22,6 +21,8 @@ export default function CreateStory() {
   const { startRecording, stopRecording, text } = useRecordVoice();
   const [isRecording, setIsRecording] = useState(false);
   const [currentStory, setCurrentStory] = useState<StoryItem[]>([]);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const router = useRouter();
 
   const width = 1024;
   const height = 1024;
@@ -45,6 +46,7 @@ export default function CreateStory() {
         const image_url = response.data[0]?.url || "";
         console.log(`Generated image URL: ${image_url}`);
         setImageUrl(image_url);
+        setIsDisabled(false);
       } catch (error) {
         console.error("Error generating image:", error);
       }
@@ -63,13 +65,36 @@ export default function CreateStory() {
     setCurrentStory([...currentStory, { text: text, imageUrl: imageUrl }]);
     //setText('Continue the story...');
     if (isRecording) {
+      setIsDisabled(true)
       stopRecording();
       startRecording();
     }
   };
 
   const handleSaveStory = () => {
-    console.log(currentStory);
+    const data = {
+      title: `A Testing Story ${Math.round(Math.random() * 100)}`,
+      pages: currentStory
+    };
+
+    setTimeout(() => {
+      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        setCurrentStory([])
+        router.push('/dashboard')
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }, 3000); // 3000 milliseconds = 3 seconds
   };
 
   return (
@@ -79,7 +104,7 @@ export default function CreateStory() {
           handleRecord={handleNewPage}
           isRecording={isRecording}
           text={text}
-          isDisabled={false}
+          isDisabled={isDisabled}
         />
         <Picture
           text={text}
@@ -98,7 +123,7 @@ export default function CreateStory() {
         >
           {isRecording ? "Stop" : "Start"} Recording
         </button>
-        {currentStory.length > 0 && !isRecording && (
+        {currentStory.length > 0 && !isRecording && !isDisabled && (
           <button
             onClick={handleSaveStory}
             className="text-3xl font-black text-white"
