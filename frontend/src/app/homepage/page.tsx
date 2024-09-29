@@ -45,15 +45,10 @@ export default function Home() {
             Transform your stories into vivid, captivating visuals with our
             AI-powered storytelling platform, or generate your own!
           </p>
-<<<<<<< HEAD:frontend/src/app/homepage/page.tsx
           <Link href="/dashboard">
             {" "}
             {/* Link to new page */}
             <a className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
-=======
-          <Link href="/create-story">
-            <div className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
->>>>>>> c7059654ace75cd9d9fca58f52694c6f2994383e:frontend/src/app/page.tsx
               Create your story!
             </div>
           </Link>
