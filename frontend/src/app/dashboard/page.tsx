@@ -311,7 +311,7 @@ export default function Dashboard() {
             <div className="flex justify-end">
               <Link href="/create-story">
                 <button
-                  className="bg-[#A260DB]  hover:text-[#8E60C0] text-white py-2 px-4 rounded"
+                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded  duration-200"
                   onClick={handleSave}
                 >
                   Save
