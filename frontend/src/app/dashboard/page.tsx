@@ -1,6 +1,6 @@
 "use client"; // <-- Correct "use client" directive
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,12 +29,15 @@ export default function Dashboard() {
 
   const [currentFable, setCurrentFable] = useState<Fable | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isNew, setIsNew] = useState(false); // To differentiate between editing and adding a new fable
-  const [isPresentationOpen, setIsPresentationOpen] = useState(false); // To handle the presentation settings pop-up
+  const [isNew, setIsNew] = useState(false);
+  const [isPresentationOpen, setIsPresentationOpen] = useState(false);
+
+  const presentationRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Open Modal when Edit or Add button is clicked
   const openModal = (fable: Fable | null = null) => {
-    setIsNew(fable === null); // If no fable is passed, we're adding a new one
+    setIsNew(fable === null);
     setCurrentFable(
       fable || {
         id: Date.now(),
@@ -42,24 +45,22 @@ export default function Dashboard() {
         description: "",
         type: "Live Fable",
       }
-    ); // If adding new, set a default fable with a unique ID
-    setIsModalOpen(true); // Open the modal
+    );
+    setIsModalOpen(true);
   };
 
   // Close Modal
   const closeModal = () => {
-    setCurrentFable(null); // Clear the current fable
-    setIsModalOpen(false); // Close the modal
+    setCurrentFable(null);
+    setIsModalOpen(false);
   };
 
   // Save updated fable details
   const handleSave = () => {
     if (currentFable) {
       if (isNew) {
-        // Add new fable
         setFables([...fables, currentFable]);
       } else {
-        // Update existing fable
         setFables(
           fables.map((fable) =>
             fable.id === currentFable.id ? currentFable : fable
@@ -67,12 +68,12 @@ export default function Dashboard() {
         );
       }
     }
-    closeModal(); // Close the modal after saving
+    closeModal();
   };
 
   // Remove a Fable
   const handleRemove = (id: number) => {
-    setFables(fables.filter((fable) => fable.id !== id)); // Filter out the fable with the matching ID
+    setFables(fables.filter((fable) => fable.id !== id));
   };
 
   // Open the presentation pop-up
@@ -85,22 +86,52 @@ export default function Dashboard() {
     setIsPresentationOpen(false);
   };
 
+  // Close popups when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsModalOpen(false);
+      }
+      if (
+        presentationRef.current &&
+        !presentationRef.current.contains(event.target as Node)
+      ) {
+        setIsPresentationOpen(false);
+      }
+    };
+
+    if (isModalOpen || isPresentationOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isModalOpen, isPresentationOpen]);
+
   return (
     <div className="flex min-h-screen flex-col bg-[#101010] text-white">
       {/* Header */}
       <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
           {/* Logo */}
-          <Image
-            src="/images/Owl.png"
-            alt="Fable logo"
-            width={100}
-            height={100}
-          />
-          <h1 className="text-3xl font-bold">Fable Dashboard</h1>
+          <Link href="/homepage">
+            <Image
+              src="/images/Owl.png"
+              alt="Fable logo"
+              width={75}
+              height={75}
+            />
+          </Link>
+          <h1 className="text-3xl font-bold font-header">Fable Dashboard</h1>
         </div>
         <nav>
-          <a className="hover:underline">Explore Community Fables</a>
+          <a className="hover:underline font-body">Explore Community Fables</a>
         </nav>
       </header>
 
@@ -109,8 +140,8 @@ export default function Dashboard() {
         {/* New Fable Button */}
         <div className="w-full">
           <button
-            className="bg-purple-600 hover:bg-purple-700 transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2"
-            onClick={() => openModal(null)} // Open modal to add new fable
+            className="bg-purple-600 hover:bg-purple-700 transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2 font-header"
+            onClick={() => openModal(null)}
           >
             + New Fable
           </button>
@@ -121,16 +152,16 @@ export default function Dashboard() {
           {fables.map((fable) => (
             <div
               key={fable.id}
-              className="bg-white text-purple-800 rounded-xl p-4 flex justify-between items-center shadow-lg"
+              className="bg-white text-purple-800 rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
             >
               <div>
-                <h2 className="text-2xl font-bold">{fable.title}</h2>
+                <h2 className="text-2xl font-bold font-body">{fable.title}</h2>
                 <p className="text-md text-[#A260DB]">{fable.description}</p>
               </div>
               <div className="flex items-center gap-4">
                 {/* Play Button */}
                 <button
-                  onClick={openPresentationSettings} // Open the presentation pop-up
+                  onClick={openPresentationSettings}
                   className="text-green-600 hover:text-green-800"
                 >
                   <svg
@@ -150,7 +181,7 @@ export default function Dashboard() {
                 </button>
                 {/* Edit Button */}
                 <button
-                  onClick={() => openModal(fable)} // Open modal to edit existing fable
+                  onClick={() => openModal(fable)}
                   className="text-[#A260DB] hover:text-[#8E60C0]"
                 >
                   <svg
@@ -169,7 +200,7 @@ export default function Dashboard() {
                 </button>
                 {/* Delete Button */}
                 <button
-                  onClick={() => handleRemove(fable.id)} // Remove fable
+                  onClick={() => handleRemove(fable.id)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <svg
@@ -196,7 +227,10 @@ export default function Dashboard() {
       {/* Presentation Settings Pop-up */}
       {isPresentationOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[#A260DB] text-white p-8 rounded-lg w-full max-w-md">
+          <div
+            ref={presentationRef}
+            className="bg-[#A260DB] text-white p-8 rounded-lg w-full max-w-md"
+          >
             <h2 className="text-2xl font-bold mb-4">Presentation Settings</h2>
 
             <div className="mb-4">
@@ -221,107 +255,68 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Modal for Fable Settings */}
-      {isModalOpen && currentFable && (
+      {/* Modal */}
+      {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[#A260DB] text-white p-8 rounded-lg w-full max-w-md">
+          <div
+            ref={modalRef}
+            className="bg-white text-black p-8 rounded-lg w-full max-w-md"
+          >
             <h2 className="text-2xl font-bold mb-4">
-              {isNew ? "Add New Fable" : "Edit Fable"}
+              {isNew ? "New Fable" : "Edit Fable"}
             </h2>
-
-            {/* Input for Fable Title */}
-            <div className="mb-4">
-              <label className="block mb-1">Title</label>
-              <input
-                type="text"
-                placeholder="Enter fable title"
-                className="w-full px-4 py-2 rounded-lg text-black"
-                value={currentFable.title}
-                onChange={(e) =>
-                  setCurrentFable({
-                    ...currentFable,
-                    title: e.target.value,
-                  })
-                }
-              />
-            </div>
-
-            <div className="flex justify-between mb-4">
-              <div className="flex items-center gap-2">
+            <form>
+              <div className="mb-4">
+                <label htmlFor="title" className="block mb-2">
+                  Title
+                </label>
                 <input
-                  type="radio"
-                  name="type"
-                  value="Live Fable"
-                  checked={currentFable.type === "Live Fable"}
-                  onChange={() =>
-                    setCurrentFable({ ...currentFable, type: "Live Fable" })
+                  type="text"
+                  id="title"
+                  value={currentFable?.title || ""}
+                  onChange={(e) =>
+                    setCurrentFable((prev) =>
+                      prev ? { ...prev, title: e.target.value } : null
+                    )
                   }
+                  className="w-full p-2 rounded-lg"
                 />
-                <label>Live Fable</label>
               </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Scheduled Fable"
-                  checked={currentFable.type === "Scheduled Fable"}
-                  onChange={() =>
-                    setCurrentFable({
-                      ...currentFable,
-                      type: "Scheduled Fable",
-                    })
+              <div className="mb-4">
+                <label htmlFor="description" className="block mb-2">
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  value={currentFable?.description || ""}
+                  onChange={(e) =>
+                    setCurrentFable((prev) =>
+                      prev ? { ...prev, description: e.target.value } : null
+                    )
                   }
+                  className="w-full p-2 rounded-lg"
                 />
-                <label>Scheduled Fable</label>
               </div>
-            </div>
-
-            {/* Input for Fable Description */}
-            <div className="mb-4">
-              <label className="block mb-1">Description</label>
-              <input
-                type="text"
-                placeholder="Describe image style..."
-                className="w-full px-4 py-2 rounded-lg text-black"
-                value={currentFable.description}
-                onChange={(e) =>
-                  setCurrentFable({
-                    ...currentFable,
-                    description: e.target.value,
-                  })
-                }
-              />
-            </div>
-
-            <div className="flex justify-between">
-              <button
-                onClick={handleSave} // Save the new or edited fable
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
-              >
-                {isNew ? "Add" : "Save"}
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
-              >
-                Cancel
-              </button>
-            </div>
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white px-4 py-2 rounded-lg"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="bg-[#101010] text-white py-6">
-        <div className="flex justify-between items-center max-w-4xl mx-auto px-8">
-          <p>&copy; 2024 Fable, Inc. All rights reserved.</p>
-          <nav className="flex gap-6">
-            <a className="hover:underline">Terms</a>
-            <a className="hover:underline">Privacy</a>
-            <a className="hover:underline">Join our Discord</a>
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 }
