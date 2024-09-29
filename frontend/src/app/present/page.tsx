@@ -6,9 +6,44 @@ import PauseIcon from '../../icons/Pause.svg'
 import XIcon from '../../icons/X.svg'
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Present() {
+const [audioUrl, setAudioUrl] = useState(null);
+  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+  const [text, setText] = useState("The old man jumped over grant and kicked him in the throat")
+
+    const generateAudio = async () => {
+        try {
+          const response = await fetch('/api/textToSpeech', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text }),
+          });
+    
+          const data = await response.json();
+          if (data.url) {
+            setAudioUrl(data.url);
+            setIsPlayerVisible(true); // Show the audio player when the audio URL is set
+            playAudio(data.url); // Play audio immediately after setting the URL
+          }
+        } catch (error) {
+          console.error('Error generating audio:', error);
+        }
+      };
+      const playAudio = (url: string) => {
+        if (url) {
+          const audio = new Audio(url);
+          audio.play().catch(error => {
+            console.error('Audio playback failed:', error);
+          });
+        }
+      };
+
     const playAndPause = () => {
+        generateAudio()
     }
     const handleRightPage = () => {
     }
@@ -29,7 +64,7 @@ export default function Present() {
                 </div>
             </div>
             <div className='w-full h-full flex gap-8'>
-                <LeftPage text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."/>
+                <LeftPage text={text}/>
                 <RightPage src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-jZYbI9BTvfbB47xnnGwoTFXa/user-wX3hRm7ClR4Jw5JO8OC02l07/img-hxFqITm9sbhQMWUutiW5kq45.png?st=2024-09-29T05%3A57%3A48Z&se=2024-09-29T07%3A57%3A48Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-09-29T01%3A09%3A41Z&ske=2024-09-30T01%3A09%3A41Z&sks=b&skv=2024-08-04&sig=3y8tTTurYHVEkt2B%2Bq1wMNUErAfs/IZedKH/q4Mdy1o%3D" />
             </div>
             <div className='w-full flex justify-between text-white font-body font-bold text-xl mt-4'>
