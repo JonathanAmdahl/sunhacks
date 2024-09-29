@@ -16,7 +16,7 @@ export default function Transcribes({ text, imageUrl, width, height, onRegenerat
                 <div className="flex flex-col items-center justify-center p-4">
                     <Image src={imageUrl} alt={text} width={width} height={height}/>
                 </div>
-            <button className="absolute bottom-0 right-0 mb-4 mr-4 text-3xl font-black text-white bg-[#8E60C0] px-4 py-2 rounded"
+            <button className="absolute bottom-0 right-0 mb-4 mr-4 text-3xl font-black text-white bg-[#8E60C0] px-4 py-2 rounded-full hover:bg-[#7D4FAF]"
                     onClick={onRegenerate} //attached the regenerate function to the onClick event
             >
                 Regenerate

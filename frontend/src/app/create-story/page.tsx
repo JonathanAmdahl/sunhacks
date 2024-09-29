@@ -75,11 +75,11 @@ export default function CreateStory() {
       <div className="bg-[#1E1E1E] h-screen w-screen items-center justify-center flex flex-col">
         <div className="flex gap-10 w-screen px-[10%] h-[70%] justify-center items-center mt">
           <Transcribes handleRecord={handleNewPage} isRecording={isRecording} text={text} />
-          <Picture text={text} imageUrl={imageUrl} width={width} height={height} onRegenerate={generateImage} //passes teh generateImage function here
+          <Picture text={text} imageUrl={imageUrl} width={width} height={height} onRegenerate={generateImage} //passes teh generateImage function
           />
         </div>
         <div className='w-full px-[10%] flex justify-between mt-10'>
-          <button onClick={handleStartRecording} className='px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]'>
+          <button onClick={handleStartRecording} className='px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0] hover:bg-[#7D4FAF]'>
             {isRecording ? 'Stop' : 'Start'} Recording
           </button>
           {currentStory.length > 0 && !isRecording && <button onClick={handleSaveStory} className='text-3xl font-black text-white'>
