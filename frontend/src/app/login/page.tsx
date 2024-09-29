@@ -13,7 +13,6 @@ export default function Login() {
 
     try {
       const response = await fetch("http://localhost:3001/login", {
-        // Changed the endpoint for login
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,12 +23,10 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Assuming the backend sends a token or success message, you can handle it here
-        // For example, storing the token in local storage
-        localStorage.setItem("token", data.token); // Adjust this based on your response structure
+        localStorage.setItem("token", data.token);
 
         // Redirect to the dashboard on successful login
-        window.location.href = "/dashboard"; // Change this if using client-side routing
+        window.location.href = "/dashboard";
       } else {
         setError(data.error || "Invalid credentials");
       }
@@ -105,9 +102,9 @@ export default function Login() {
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
           <Link href="/register">
-            <p className="font-medium text-[#8E60C0] hover:text-[#6d4a93]">
+            <span className="font-medium text-[#8E60C0] hover:text-[#6d4a93]">
               Sign Up
-            </p>
+            </span>
           </Link>
         </p>
       </div>

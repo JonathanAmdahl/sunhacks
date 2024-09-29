@@ -95,12 +95,11 @@ export default function Home() {
               Fable uses a combination of OpenAI tools for all your storytelling
               needs.
             </p>
-            <a
-              href="#"
+            <p
               className="mt-6 inline-block rounded-full bg-[#FC9E59] px-8 py-4 text-white text-lg font-semibold transition-all hover:bg-[#E88A4D]"
             >
               Explore community stories
-            </a>
+            </p>
           </div>
 
           {/* Right Content */}

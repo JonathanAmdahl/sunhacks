@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Fable {
   id: number;
@@ -122,7 +122,7 @@ export default function Dashboard() {
   }, [isModalOpen, isPresentationOpen]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#101010] text-white">
+    <div className="flex min-h-screen flex-col bg-[#1E1E1E] text-white">
       {/* Header */}
       <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
@@ -156,10 +156,10 @@ export default function Dashboard() {
           {fables.map((fable) => (
             <div
               key={fable.id}
-              className="bg-white text-[#A260DB]  rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
+              className="bg-white text-[#A260DB] rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
             >
               <div>
-                <h2 className="text-2xl font-bold font-body">{fable.title}</h2>
+                <h2 className="text-2xl font-bold">{fable.title}</h2>
                 <p className="text-md text-[#A260DB]">{fable.description}</p>
               </div>
               <div className="flex items-center gap-4">
@@ -245,84 +245,89 @@ export default function Dashboard() {
               </select>
             </div>
 
-            <div className="flex justify-end">
-              <Link
-                href="/present"
-                className="bg-green-600 hover:bg-green-700 transition text-white py-2 px-4 rounded"
-              >
-                <button>Start Presentation</button>
-              </Link>
-              <button
-                className="ml-2 bg-red-600 hover:bg-red-700 transition text-white py-2 px-4 rounded"
-                onClick={() => setIsPresentationOpen(false)}
-              >
-                Close
-              </button>
-            </div>
+            <button
+              onClick={() => setIsPresentationOpen(false)}
+              className="bg-white text-[#A260DB] hover:bg-[#8E60C0] transition py-2 px-4 rounded-lg"
+            >
+              Save
+            </button>
           </div>
         </div>
       )}
 
-      {/* Fable Modal */}
-      {isModalOpen && (
+      {/* Modal for creating/editing a fable */}
+      {isModalOpen && currentFable && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
             ref={modalRef}
-            className="bg-white text-black p-8 rounded-lg w-full max-w-md"
+            className="bg-white p-8 rounded-lg w-full max-w-md"
           >
-            <h2 className="text-2xl font-bold mb-4">
-              {isNew ? "New Fable" : "Edit Fable"}
+            <h2 className="text-2xl font-bold mb-4 text-[#A260DB] font-header">
+              {isNew ? "Create New Fable" : "Edit Fable"}
             </h2>
+
             <div className="mb-4">
-              <label htmlFor="title" className="block mb-2">
+              <label
+                htmlFor="title"
+                className="block mb-2 text-lg text-[#A260DB] outline-2 font-header"
+              >
                 Title
               </label>
               <input
-                id="title"
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
-                value={currentFable?.title || ""}
-                onChange={(e) => {
-                  if (currentFable) {
-                    setCurrentFable({ ...currentFable, title: e.target.value });
-                  }
-                }}
+                id="title"
+                value={currentFable.title}
+                onChange={(e) =>
+                  setCurrentFable({ ...currentFable, title: e.target.value })
+                }
+                className="w-full p-2 text-black rounded-lg"
               />
             </div>
+
             <div className="mb-4">
-              <label htmlFor="description" className="block mb-2">
+              <label
+                htmlFor="description"
+                className="block mb-2 text-lg text-[#A260DB] font-header "
+              >
                 Description
               </label>
               <textarea
                 id="description"
-                className="w-full p-2 border border-gray-300 rounded"
-                rows={4}
-                value={currentFable?.description || ""}
-                onChange={(e) => {
-                  if (currentFable) {
-                    setCurrentFable({
-                      ...currentFable,
-                      description: e.target.value,
-                    });
-                  }
-                }}
+                value={currentFable.description}
+                onChange={(e) =>
+                  setCurrentFable({
+                    ...currentFable,
+                    description: e.target.value,
+                  })
+                }
+                className="w-full p-2 text-black rounded-lg border-[#A260DB] border-2 focus:ring-[#6d4a93]"
               />
             </div>
-            <div className="flex justify-end">
-              <Link href="/create-story">
-                <button
-                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded  duration-200"
-                  onClick={handleSave}
-                >
-                  Save
-                </button>
-              </Link>
+
+            <div className="flex justify-end gap-4">
               <button
-                className="ml-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
                 onClick={closeModal}
+                className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded-lg"
               >
                 Cancel
               </button>
+              {isNew ? (
+                <Link href="/create-story">
+                  <button
+                    onClick={handleSave}
+                    className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded-lg"
+                  >
+                    Save
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  onClick={handleSave}
+                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded-lg"
+                >
+                  Save
+                </button>
+              )}
             </div>
           </div>
         </div>
