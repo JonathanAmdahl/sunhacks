@@ -13,6 +13,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        body: ["Outfit", "sans-serif"],
+        header: ["Paytone One", "sans-serif"],
+      },
     },
   },
   plugins: [],
