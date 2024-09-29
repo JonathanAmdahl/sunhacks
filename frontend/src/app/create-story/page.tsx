@@ -29,26 +29,26 @@ export default function CreateStory() {
 
   const [imageUrl, setImageUrl] = useState("")
 
-  useEffect(() => {
-    async function generateImage() {
-      try {
-        if(text === '') return;
-      
-        const response = await openai.images.generate({
-          model: "dall-e-2",
-          prompt: basePrompt + text, // Using the state variable for the prompt
-          n: 1,
-          size: `${width}x${height}`,
-        });
+  async function generateImage() {
+    try {
+      if(text === '') return;
+    
+      const response = await openai.images.generate({
+        model: "dall-e-2",
+        prompt: basePrompt + text, // Using the state variable for the prompt
+        n: 1,
+        size: `${width}x${height}`,
+      });
 
-        const image_url = response.data[0]?.url || "";
-        console.log(`Generated image URL: ${image_url}`);
-        setImageUrl(image_url);
-      } catch (error) {
-        console.error("Error generating image:", error);
-      }
+      const image_url = response.data[0]?.url || "";
+      console.log(`Generated image URL: ${image_url}`);
+      setImageUrl(image_url);
+    } catch (error) {
+      console.error("Error generating image:", error);
     }
+  }
 
+  useEffect(() => {
     generateImage();
   }, [text]);
 
@@ -74,8 +74,9 @@ export default function CreateStory() {
     return (
       <div className="bg-[#1E1E1E] h-screen w-screen items-center justify-center flex flex-col">
         <div className="flex gap-10 w-screen px-[10%] h-[70%] justify-center items-center mt">
-          <Transcribes handleRecord={handleNewPage} isRecording={isRecording} text={text} imageUrl={imageUrl}/>
-          <Picture text={text} imageUrl={imageUrl} width={width} height={height}/>
+          <Transcribes handleRecord={handleNewPage} isRecording={isRecording} text={text} />
+          <Picture text={text} imageUrl={imageUrl} width={width} height={height} onRegenerate={generateImage} //passes teh generateImage function here
+          />
         </div>
         <div className='w-full px-[10%] flex justify-between mt-10'>
           <button onClick={handleStartRecording} className='px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]'>
