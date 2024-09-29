@@ -122,7 +122,7 @@ export default function Dashboard() {
   }, [isModalOpen, isPresentationOpen]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#101010] text-white">
+    <div className="flex min-h-screen flex-col bg-[#1E1E1E] text-white">
       {/* Header */}
       <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
@@ -156,7 +156,7 @@ export default function Dashboard() {
           {fables.map((fable) => (
             <div
               key={fable.id}
-              className="bg-white text-[#A260DB]  rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
+              className="bg-white text-[#A260DB] rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
             >
               <div>
                 <h2 className="text-2xl font-bold font-body">{fable.title}</h2>
@@ -246,14 +246,13 @@ export default function Dashboard() {
             </div>
 
             <div className="flex justify-end">
-              <Link
-                href="/present"
-                className="bg-green-600 hover:bg-green-700 transition text-white py-2 px-4 rounded"
-              >
-                <button>Start Presentation</button>
+              <Link href="/presentation-mode">
+                <button className="bg-[#A260DB] hover:bg-[#8E60C0] transition text-white py-2 px-4 rounded">
+                  Start Presentation
+                </button>
               </Link>
               <button
-                className="ml-2 bg-red-600 hover:bg-red-700 transition text-white py-2 px-4 rounded"
+                className="ml-2 bg-[#FC9E59] hover:bg-[#E88A4D] transition text-white py-2 px-4 rounded"
                 onClick={() => setIsPresentationOpen(false)}
               >
                 Close
@@ -309,16 +308,14 @@ export default function Dashboard() {
               />
             </div>
             <div className="flex justify-end">
-              <Link href="/create-story">
-                <button
-                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded  duration-200"
-                  onClick={handleSave}
-                >
-                  Save
-                </button>
-              </Link>
               <button
-                className="ml-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+                className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+              <button
+                className="ml-2 bg-[#FC9E59] hover:bg-[#E88A4D] text-white py-2 px-4 rounded"
                 onClick={closeModal}
               >
                 Cancel
