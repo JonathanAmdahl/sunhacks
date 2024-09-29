@@ -12,7 +12,7 @@ export default function CreateStory() {
           <button className='text-3xl font-black text-white'>
             &lt; Previous Page
           </button>
-          <button className='text-3xl font-black text-white bg-[#8E60C0]'>
+          <button className='text-3xl mb-4 mr-4 font-black text-white bg-[#8E60C0] px-4 py-2 rounded'>
             Save Fable
           </button>
           <button className='text-3xl font-black text-white'>
