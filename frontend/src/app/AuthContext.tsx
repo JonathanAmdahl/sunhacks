@@ -16,14 +16,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   // Simulate a login (this should come from your authentication logic)
-  const login = () => {
+  const login = (token: string) => {
     setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", "true"); // Store login state
+    localStorage.setItem("authToken", token); // Store token
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn"); // Remove login state
+    localStorage.removeItem("authToken"); // Remove token
   };
 
   // Check if user is logged in on initial render

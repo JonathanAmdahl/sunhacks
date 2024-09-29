@@ -309,12 +309,14 @@ export default function Dashboard() {
               />
             </div>
             <div className="flex justify-end">
-              <button
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                onClick={handleSave}
-              >
-                Save
-              </button>
+              <Link href="/create-story">
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                  onClick={handleSave}
+                >
+                  Save
+                </button>
+              </Link>
               <button
                 className="ml-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
                 onClick={closeModal}
