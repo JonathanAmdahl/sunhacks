@@ -267,13 +267,13 @@ export default function Dashboard() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
             ref={modalRef}
-            className="bg-white text-black p-8 rounded-lg w-full max-w-md"
+            className="bg-[#A260DB] text-black p-8 rounded-lg w-full max-w-md"
           >
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold mb-4 text-white">
               {isNew ? "New Fable" : "Edit Fable"}
             </h2>
             <div className="mb-4">
-              <label htmlFor="title" className="block mb-2">
+              <label htmlFor="title" className="block mb-2 text-white">
                 Title
               </label>
               <input
@@ -289,7 +289,7 @@ export default function Dashboard() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="description" className="block mb-2">
+              <label htmlFor="description" className="block mb-2 text-white">
                 Description
               </label>
               <textarea
