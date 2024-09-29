@@ -246,10 +246,11 @@ export default function Dashboard() {
             </div>
 
             <div className="flex justify-end">
-              <Link href="/presentation-mode">
-                <button className="bg-green-600 hover:bg-green-700 transition text-white py-2 px-4 rounded">
-                  Start Presentation
-                </button>
+              <Link
+                href="/present"
+                className="bg-green-600 hover:bg-green-700 transition text-white py-2 px-4 rounded"
+              >
+                <button>Start Presentation</button>
               </Link>
               <button
                 className="ml-2 bg-red-600 hover:bg-red-700 transition text-white py-2 px-4 rounded"
