@@ -38,7 +38,7 @@ export default function Home() {
             All-In-One Storytelling Hub.
             <br /> Author. Generate. Save.
           </h1>
-          <p className="mt-4 max-w-lg text-lg text-[#FC9E59]">
+          <p className="mt-4 max-w-lg text-lg text-[#FC9E59] font-body">
             Transform your stories into vivid, captivating visuals with our
             AI-powered storytelling platform, or generate your own!
           </p>
