@@ -2,106 +2,78 @@
 
 import Picture from "@/components/Picture";
 import Transcribes from "@/components/Transcribes";
-import { useRecordVoice } from "@/hooks/useRecordVoice";
-import { useState, useEffect } from "react";
-import OpenAI from "openai";
+import { useState } from "react";
 
-//FINISH MOVING PICTURE LOGIC HERE SO U CAN SAVE TO THE ARRAY
-
-interface StoryItem {
+interface Page {
+  id: number;
   text: string;
   imageUrl: string;
+  bookId: number;
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+interface Story {
+  id: number;
+  title: string;
+  pages: Page[];
+}
 
-export default function CreateStory() {
-  const { startRecording, stopRecording, text } = useRecordVoice();
-  const [isRecording, setIsRecording] = useState(false);
-  const [currentStory, setCurrentStory] = useState<StoryItem[]>([]);
+interface PresentationModeProps {
+  story: Story;
+}
 
-  const width = 1024;
-  const height = 1024;
-  const basePrompt =
-    "Create a highly detailed and vibrant image in the style of art nouveau that captures the following scene from a story:";
+export default function PresentationMode({ story }: PresentationModeProps) {
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const [imageUrl, setImageUrl] = useState("");
-
-  useEffect(() => {
-    async function generateImage() {
-      try {
-        if (text === "") return;
-
-        const response = await openai.images.generate({
-          model: "dall-e-2",
-          prompt: basePrompt + text, // Using the state variable for the prompt
-          n: 1,
-          size: `${width}x${height}`,
-        });
-
-        const image_url = response.data[0]?.url || "";
-        console.log(`Generated image URL: ${image_url}`);
-        setImageUrl(image_url);
-      } catch (error) {
-        console.error("Error generating image:", error);
-      }
-    }
-
-    generateImage();
-  }, [text]);
-
-  const handleStartRecording = () => {
-    if (isRecording) stopRecording();
-    else startRecording();
-    setIsRecording((oldState) => !oldState);
-  };
-
-  const handleNewPage = () => {
-    setCurrentStory([...currentStory, { text: text, imageUrl: imageUrl }]);
-    //setText('Continue the story...');
-    if (isRecording) {
-      stopRecording();
-      startRecording();
+  const handleNextPage = () => {
+    if (currentPage < story.pages.length - 1) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
-  const handleSaveStory = () => {
-    console.log(currentStory);
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
     <div className="bg-[#1E1E1E] h-screen w-screen items-center justify-center flex flex-col">
       <div className="flex gap-10 w-screen px-[10%] h-[70%] justify-center items-center mt">
         <Transcribes
-          handleRecord={handleNewPage}
-          isRecording={isRecording}
-          text={text}
+          text={story.pages[currentPage].text}
+          isRecording={false}
+          handleRecord={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
         <Picture
-          text={text}
-          imageUrl={imageUrl}
-          width={width}
-          height={height}
+          text={story.pages[currentPage].text}
+          imageUrl={story.pages[currentPage].imageUrl}
+          width={1024}
+          height={1024}
         />
       </div>
       <div className="w-full px-[10%] flex justify-between mt-10">
         <button
-          onClick={handleStartRecording}
-          className="px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 0}
+          className={`px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0] ${
+            currentPage === 0 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          {isRecording ? "Stop" : "Start"} Recording
+          Previous Page
         </button>
-        {currentStory.length > 0 && !isRecording && (
-          <button
-            onClick={handleSaveStory}
-            className="text-3xl font-black text-white"
-          >
-            Save
-          </button>
-        )}
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === story.pages.length - 1}
+          className={`px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0] ${
+            currentPage === story.pages.length - 1
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+        >
+          Next Page
+        </button>
       </div>
     </div>
   );
