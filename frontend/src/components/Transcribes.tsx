@@ -1,7 +1,13 @@
+import Image from 'next/image'
+import MicIcon from '../icons/MicIcon.svg'
 export default function Transcribes() {
-    return (
-        <div className="bg-white w-[50%] h-[100%]">
-        g
+    return (<div className="bg-white w-[50%] h-[100%] py-10 px-10">
+        <p className='text-3xl text-[#8E60C0] h-[calc(100%-3rem)] font-black'>Press the microphone and begin transcribing...</p>
+        <div className='h-12 flex justify-between'>
+            <button>
+                <Image src={MicIcon} width={55} height={80} alt="Mic Icon" />
+            </button>
+            <button className='px-4 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]'>Generate Page</button>
         </div>
-    )
+    </div>)
 }
