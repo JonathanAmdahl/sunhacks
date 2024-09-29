@@ -3,12 +3,13 @@
 import { useState } from 'react'
 
 interface TranscribesProps {
+    isDisabled: boolean;
     isRecording: boolean;
     handleRecord: () => void;
     text: string;
 }
 
-export default function Transcribes({ handleRecord, text, isRecording }: TranscribesProps) {
+export default function Transcribes({ handleRecord, text, isRecording, isDisabled }: TranscribesProps) {
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
@@ -27,7 +28,7 @@ export default function Transcribes({ handleRecord, text, isRecording }: Transcr
                 {text ?? "Press the microphone and begin transcribing..."}
             </p>
             <div className='h-[6rem] flex justify-center items-end'>
-                {isRecording && (
+                {isRecording && !isDisabled && (
                     <button 
                         onClick={handleClick} 
                         disabled={isClicked}

@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "^14.2.13",
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.5",
     "google": "^2.1.0",

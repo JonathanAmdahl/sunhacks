@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Page` MODIFY `imageUrl` VARCHAR(2048) NOT NULL;
