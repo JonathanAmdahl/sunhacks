@@ -110,7 +110,7 @@ export default function CreateStory() {
           />
         </div>
         <div className='w-full px-[10%] flex justify-between mt-10'>
-          <button onClick={handleStartRecording} className='px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]'>
+          <button onClick={handleStartRecording} className='px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0] hover:bg-[#7D4FAF]'>
             {isRecording ? 'Stop' : 'Start'} Recording
           </button>
           {currentStory.length > 0 && !isRecording && !isDisabled && <button onClick={handleSaveStory} className='text-3xl font-black text-white'>
