@@ -8,11 +8,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (e: { preventDefault: () => void }) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("http://localhost:3001/login", {
+        // Changed the endpoint for login
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,10 +24,14 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Use window.location to redirect
-        window.location.href = "/dashboard"; // Redirects to dashboard
+        // Assuming the backend sends a token or success message, you can handle it here
+        // For example, storing the token in local storage
+        localStorage.setItem("token", data.token); // Adjust this based on your response structure
+
+        // Redirect to the dashboard on successful login
+        window.location.href = "/dashboard"; // Change this if using client-side routing
       } else {
-        setError(data.message || "Invalid credentials");
+        setError(data.error || "Invalid credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -92,14 +97,14 @@ export default function Login() {
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#8E60C0] hover:bg-[#6d4a93] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6d4a93]"
             >
-              Sign In
+              Log In
             </button>
           </div>
         </form>
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <Link href="/signup">
+          <Link href="/register">
             <p className="font-medium text-[#8E60C0] hover:text-[#6d4a93]">
               Sign Up
             </p>

@@ -1,8 +1,13 @@
+"use client";
+// Home.tsx
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useAuth } from "../AuthContext";
 
 export default function Home() {
+  const { isLoggedIn, logout } = useAuth(); // Get authentication status
+
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 font-body">
       {/* Header */}
@@ -22,14 +27,24 @@ export default function Home() {
           </Link>
         </div>
         <nav className="flex gap-6 items-center">
-          <Link href="/login">
-            <p className="hover:underline font-body">Log In</p>
-          </Link>
-          <Link href="/register">
-            <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
-              Register Now
-            </p>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="#" onClick={logout}>
+                <p className="hover:underline font-body">Log Out</p>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <p className="hover:underline font-body">Log In</p>
+              </Link>
+              <Link href="/register">
+                <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
+                  Register Now
+                </p>
+              </Link>
+            </>
+          )}
         </nav>
       </header>
 
@@ -45,12 +60,10 @@ export default function Home() {
             Transform your stories into vivid, captivating visuals with our
             AI-powered storytelling platform, or generate your own!
           </p>
-          <Link href="/dashboard">
-            {" "}
-            {/* Link to new page */}
-            <a className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
+          <Link href="/register">
+            <p className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
               Create your story!
-            </a>
+            </p>
           </Link>
         </div>
 

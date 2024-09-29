@@ -25,7 +25,7 @@ app.post("/users", async (req: Request, res: Response) => {
     const newUser = await prisma.user.create({
       data: {
         email,
-        password: password,
+        password, // No hashing
       },
     });
     res.status(201).json({ id: newUser.id, email: newUser.email });
@@ -43,20 +43,24 @@ app.post("/login", async (req: Request, res: Response) => {
   }
 
   try {
+    // Attempt to find the user by email
     const user = await prisma.user.findUnique({ where: { email } });
 
+    // Check if user exists
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const isPasswordValid = password === user.password;
-
-    if (!isPasswordValid) {
+    // Check if password matches
+    if (password !== user.password) {
+      // Ensure this comparison is case-sensitive
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    res.json({ token: user.email });
+    // If successful, respond with a token or user data
+    res.json({ token: user.email }); // Consider returning a JWT or similar token in real applications
   } catch (error) {
+    console.error("Login error:", error); // Log the error for debugging
     res.status(500).json({ error: "Unable to log in" });
   }
 });

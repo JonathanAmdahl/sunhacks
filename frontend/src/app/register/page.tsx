@@ -7,25 +7,26 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false); // Track registration status
+  const [isRegistered, setIsRegistered] = useState(false);
 
-  const handleRegister = async (e: { preventDefault: () => void; }) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/register", {
+      console.log("here");
+      const response = await fetch("http://localhost:3001/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }), // Send email and password in the body
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
+      console.log(data);
       if (response.ok) {
-        // Registration success
-        setIsRegistered(true); // Set registered state to true
+        setIsRegistered(true);
       } else {
         setError(data.message || "Registration failed");
       }

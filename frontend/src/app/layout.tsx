@@ -1,7 +1,9 @@
+// layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import { Outfit, Paytone_One } from "next/font/google";
+import { AuthProvider } from "./AuthContext"; // Import AuthProvider
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -29,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.variable} ${paytone.variable}`}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

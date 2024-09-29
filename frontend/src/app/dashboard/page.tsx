@@ -1,4 +1,4 @@
-"use client"; // <-- Correct "use client" directive
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -12,21 +12,7 @@ interface Fable {
 }
 
 export default function Dashboard() {
-  const [fables, setFables] = useState<Fable[]>([
-    {
-      id: 1,
-      title: "Fable 1",
-      description: "Description of Fable 1",
-      type: "Live Fable",
-    },
-    {
-      id: 2,
-      title: "Fable 2",
-      description: "Description of Fable 2",
-      type: "Scheduled Fable",
-    },
-  ]);
-
+  const [fables, setFables] = useState<Fable[]>([]);
   const [currentFable, setCurrentFable] = useState<Fable | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -35,7 +21,21 @@ export default function Dashboard() {
   const presentationRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Open Modal when Edit or Add button is clicked
+  // Simulated user ID (you would normally get this from authentication context)
+  const userId = 1; // Example user ID
+
+  // Function to fetch fables for the current user
+  const fetchUserFables = async () => {
+    // Replace this with your data fetching logic (e.g., API call)
+    const response = await fetch(`/api/fables?userId=${userId}`);
+    const data = await response.json();
+    setFables(data);
+  };
+
+  useEffect(() => {
+    fetchUserFables();
+  }, []);
+
   const openModal = (fable: Fable | null = null) => {
     setIsNew(fable === null);
     setCurrentFable(
@@ -49,18 +49,32 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
-  // Close Modal
   const closeModal = () => {
     setCurrentFable(null);
     setIsModalOpen(false);
   };
 
-  // Save updated fable details
-  const handleSave = () => {
+  const handleSave = async () => {
     if (currentFable) {
       if (isNew) {
+        // Post new fable to API
+        await fetch(`/api/fables`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...currentFable, userId }), // Include user ID
+        });
         setFables([...fables, currentFable]);
       } else {
+        // Update existing fable
+        await fetch(`/api/fables/${currentFable.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentFable),
+        });
         setFables(
           fables.map((fable) =>
             fable.id === currentFable.id ? currentFable : fable
@@ -71,17 +85,15 @@ export default function Dashboard() {
     closeModal();
   };
 
-  // Remove a Fable
-  const handleRemove = (id: number) => {
+  const handleRemove = async (id: number) => {
+    await fetch(`/api/fables/${id}`, { method: "DELETE" });
     setFables(fables.filter((fable) => fable.id !== id));
   };
 
-  // Open the presentation pop-up
   const openPresentationSettings = () => {
     setIsPresentationOpen(true);
   };
 
-  // Close popups when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -114,7 +126,6 @@ export default function Dashboard() {
       {/* Header */}
       <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
-          {/* Logo */}
           <Link href="/homepage">
             <Image
               src="/images/Owl.png"
@@ -132,7 +143,6 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-start mt-10 w-full max-w-4xl mx-auto px-8">
-        {/* New Fable Button */}
         <div className="w-full">
           <button
             className="bg-purple-600 hover:bg-purple-700 transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2 font-header"
@@ -142,7 +152,6 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Fable List */}
         <div className="mt-8 w-full space-y-6">
           {fables.map((fable) => (
             <div
@@ -154,7 +163,6 @@ export default function Dashboard() {
                 <p className="text-md text-[#A260DB]">{fable.description}</p>
               </div>
               <div className="flex items-center gap-4">
-                {/* Play Button */}
                 <button
                   onClick={openPresentationSettings}
                   className="text-green-600 hover:text-green-800"
@@ -174,7 +182,6 @@ export default function Dashboard() {
                     />
                   </svg>
                 </button>
-                {/* Edit Button */}
                 <button
                   onClick={() => openModal(fable)}
                   className="text-[#A260DB] hover:text-[#8E60C0]"
@@ -193,7 +200,6 @@ export default function Dashboard() {
                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7.5 18.5l-4 1 1-4L16.5 3.5z" />
                   </svg>
                 </button>
-                {/* Delete Button */}
                 <button
                   onClick={() => handleRemove(fable.id)}
                   className="text-red-600 hover:text-red-800"
@@ -241,16 +247,22 @@ export default function Dashboard() {
 
             <div className="flex justify-end">
               <Link href="/presentation-mode">
-                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
-                  Begin!
+                <button className="bg-green-600 hover:bg-green-700 transition text-white py-2 px-4 rounded">
+                  Start Presentation
                 </button>
               </Link>
+              <button
+                className="ml-2 bg-red-600 hover:bg-red-700 transition text-white py-2 px-4 rounded"
+                onClick={() => setIsPresentationOpen(false)}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal */}
+      {/* Fable Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
@@ -260,55 +272,55 @@ export default function Dashboard() {
             <h2 className="text-2xl font-bold mb-4">
               {isNew ? "New Fable" : "Edit Fable"}
             </h2>
-            <form>
-              <div className="mb-4">
-                <label htmlFor="title" className="block mb-2">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  value={currentFable?.title || ""}
-                  onChange={(e) =>
-                    setCurrentFable((prev) =>
-                      prev ? { ...prev, title: e.target.value } : null
-                    )
+            <div className="mb-4">
+              <label htmlFor="title" className="block mb-2">
+                Title
+              </label>
+              <input
+                id="title"
+                type="text"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={currentFable?.title || ""}
+                onChange={(e) => {
+                  if (currentFable) {
+                    setCurrentFable({ ...currentFable, title: e.target.value });
                   }
-                  className="w-full p-2 rounded-lg"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="description" className="block mb-2">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  value={currentFable?.description || ""}
-                  onChange={(e) =>
-                    setCurrentFable((prev) =>
-                      prev ? { ...prev, description: e.target.value } : null
-                    )
+                }}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="description" className="block mb-2">
+                Description
+              </label>
+              <textarea
+                id="description"
+                className="w-full p-2 border border-gray-300 rounded"
+                rows={4}
+                value={currentFable?.description || ""}
+                onChange={(e) => {
+                  if (currentFable) {
+                    setCurrentFable({
+                      ...currentFable,
+                      description: e.target.value,
+                    });
                   }
-                  className="w-full p-2 rounded-lg"
-                />
-              </div>
-              <div className="flex justify-end gap-4">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  className="bg-[#A260DB] hover:bg-[#8E60C0] text-white px-4 py-2 rounded-lg"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
+                }}
+              />
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+              <button
+                className="ml-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
