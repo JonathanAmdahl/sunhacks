@@ -22,15 +22,12 @@ export default function Home() {
           </Link>
         </div>
         <nav className="flex gap-6 items-center">
-          <a href="#" className="hover:underline">
-            Log In
-          </a>
-          <a
-            href="#"
-            className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition"
-          >
+          <Link href="/login">
+            <p className="hover:underline font-body">Log In</p>
+          </Link>
+          <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
             Register Now
-          </a>
+          </p>
         </nav>
       </header>
 
