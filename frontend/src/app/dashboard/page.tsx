@@ -240,8 +240,7 @@ export default function Dashboard() {
               </label>
               <select id="reader" className="w-full p-2 text-black rounded-lg">
                 <option>Select reader...</option>
-                <option>Reader 1</option>
-                <option>Reader 2</option>
+                <option>Morgan Freeman</option>
               </select>
             </div>
 
