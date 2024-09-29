@@ -31,7 +31,7 @@ export default function Transcribes({
       <div className="flex flex-col items-center justify-center p-4 h-full">
         {loading || !imageUrl ? (
           // Show loader when imageUrl is null or loading is true
-          <div className="flex items-center justify-center h-full">
+          <div className="flex items-center justify-center h-full w-full">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>{" "}
             {/* Tailwind spinner */}
           </div>
@@ -42,7 +42,7 @@ export default function Transcribes({
             alt={text}
             width={width}
             height={height}
-            className="object-contain h-full max-h-full w-auto rounded-xl"
+            className="object-contain w-7/8 h-5/8 rounded-xl"
           />
         )}
       </div>

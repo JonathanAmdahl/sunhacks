@@ -24,15 +24,18 @@ export default function Transcribes({ handleRecord, text, isRecording, isDisable
     
     return (
         <div className="bg-white w-[50%] h-[100%] py-10 px-10 rounded-xl">
-            <p className='text-3xl text-[#8E60C0] h-[calc(100%-6rem)] font-black overflow-hidden overflow-ellipsis'>
-                {text ?? "Press the microphone and begin transcribing..."}
-            </p>
-            <div className='h-[6rem] flex justify-center items-end'>
+            <div>
+                <p className='text-3xl text-[#8E60C0] h-[calc(100%-6rem)] font-black overflow-hidden overflow-ellipsis'>
+                    {text ?? "Press the microphone and begin transcribing..."}
+                </p>
+            </div>
+            
+            <div className='h-[80%] flex justify-center items-end'>
                 {isRecording && !isDisabled && (
                     <button 
                         onClick={handleClick} 
                         disabled={isClicked}
-                        className={`px-4 py-2 rounded-full text-3xl font-black text-white 
+                        className={`relative bottom-0 left-0 mb-0 mr-20 px-4 py-2 rounded-full text-3xl font-black text-white 
                             ${isClicked ? 'bg-green-500 cursor-not-allowed' : 'bg-[#8E60C0] hover:bg-[#7D4FAF]'}
                             transition-colors duration-300`}
                     >
