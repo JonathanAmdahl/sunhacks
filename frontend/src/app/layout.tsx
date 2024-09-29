@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import React from "react";
+import { Outfit, Paytone_One } from "next/font/google";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-outfit",
+});
+
+const paytone = Paytone_One({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-paytone",
+  weight: ["400"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${outfit.variable} ${paytone.variable}`}>
         {children}
       </body>
     </html>
