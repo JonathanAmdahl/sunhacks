@@ -5,7 +5,7 @@ import Transcribes from "@/components/Transcribes";
 import { useRecordVoice } from "@/hooks/useRecordVoice";
 import { useState, useEffect } from "react";
 import OpenAI from "openai";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // Correct import
 
 interface StoryItem {
   text: string;
@@ -22,8 +22,8 @@ export default function CreateStory() {
   const [isRecording, setIsRecording] = useState(false);
   const [currentStory, setCurrentStory] = useState<StoryItem[]>([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const router = useRouter();
-  const [loading, setLoading] = useState(false); // Add loading state for spinner
+  const router = useRouter(); // Correct useRouter hook
+  const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
   const width = 1024;
@@ -36,7 +36,7 @@ export default function CreateStory() {
       try {
         if (text === "") return;
 
-        setLoading(true); // Set loading to true when generation starts
+        setLoading(true);
         const response = await openai.images.generate({
           model: "dall-e-2",
           prompt: basePrompt + text,
@@ -51,7 +51,7 @@ export default function CreateStory() {
       } catch (error) {
         console.error("Error generating image:", error);
       } finally {
-        setLoading(false); // Set loading to false when generation is done
+        setLoading(false);
       }
     }
 
@@ -96,7 +96,7 @@ export default function CreateStory() {
         .catch((error) => {
           console.error("Error:", error);
         });
-    }, 3000); // 3000 milliseconds = 3 seconds
+    }, 3000);
   };
 
   return (
@@ -109,9 +109,7 @@ export default function CreateStory() {
           isDisabled={isDisabled}
         />
 
-        {/* Picture container with relative positioning to handle spinner overlay */}
         <div className="relative w-full h-full">
-          {/* Conditionally show the loading spinner or the Picture component */}
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-10">
               <div role="status">
@@ -136,7 +134,6 @@ export default function CreateStory() {
             </div>
           )}
 
-          {/* Picture component */}
           <Picture
             text={text}
             imageUrl={imageUrl}
