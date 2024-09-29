@@ -56,7 +56,7 @@ export default function Register() {
           <div className="text-center">
             <p className="text-green-600">Registration successful!</p>
             <Link href="/dashboard">
-              <p className="font-medium text-[#A260DB] hover:text-[#8E60C0]">
+              <p className="font-medium bg-[#A260DB] hover:bg-[#8E60C0]">
                 Go to Dashboard
               </p>
             </Link>
