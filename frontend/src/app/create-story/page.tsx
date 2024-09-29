@@ -3,9 +3,8 @@
 import Picture from "@/components/Picture";
 import Transcribes from "@/components/Transcribes";
 import { useRecordVoice } from "@/hooks/useRecordVoice";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import OpenAI from "openai";
-import { useRouter } from "next/navigation"; // Correct import
 
 interface StoryItem {
   text: string;
@@ -22,8 +21,11 @@ export default function CreateStory() {
   const [isRecording, setIsRecording] = useState(false);
   const [currentStory, setCurrentStory] = useState<StoryItem[]>([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const router = useRouter(); // Correct useRouter hook
-  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const modalRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false); // Add loading state for spinner
   const [imageUrl, setImageUrl] = useState("");
 
   const width = 1024;
@@ -36,7 +38,7 @@ export default function CreateStory() {
       try {
         if (text === "") return;
 
-        setLoading(true);
+        setLoading(true); // Set loading to true when generation starts
         const response = await openai.images.generate({
           model: "dall-e-2",
           prompt: basePrompt + text,
@@ -51,7 +53,7 @@ export default function CreateStory() {
       } catch (error) {
         console.error("Error generating image:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false when generation is done
       }
     }
 
@@ -75,7 +77,9 @@ export default function CreateStory() {
 
   const handleSaveStory = () => {
     const data = {
-      title: `A Testing Story ${Math.round(Math.random() * 100)}`,
+      userId: localStorage.getItem("token"),
+      title,
+      description,
       pages: currentStory,
     };
 
@@ -91,12 +95,13 @@ export default function CreateStory() {
         .then((data) => {
           console.log("Success:", data);
           setCurrentStory([]);
-          router.push("/dashboard");
+          window.history.pushState(null, "", "/dashboard");
+          window.location.reload();
         })
         .catch((error) => {
           console.error("Error:", error);
         });
-    }, 3000);
+    }, 3000); // 3000 milliseconds = 3 seconds
   };
 
   return (
@@ -109,7 +114,9 @@ export default function CreateStory() {
           isDisabled={isDisabled}
         />
 
+        {/* Picture container with relative positioning to handle spinner overlay */}
         <div className="relative w-full h-full">
+          {/* Conditionally show the loading spinner or the Picture component */}
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-10">
               <div role="status">
@@ -134,6 +141,7 @@ export default function CreateStory() {
             </div>
           )}
 
+          {/* Picture component */}
           <Picture
             text={text}
             imageUrl={imageUrl}
@@ -154,13 +162,71 @@ export default function CreateStory() {
         </button>
         {currentStory.length > 0 && !isRecording && !isDisabled && (
           <button
-            onClick={handleSaveStory}
+            onClick={() => setIsModalOpen(true)}
             className="text-3xl font-black text-white"
           >
             Save
           </button>
         )}
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            ref={modalRef}
+            className="bg-white p-8 rounded-lg w-full max-w-md"
+          >
+            <h2 className="text-2xl font-bold mb-4 text-[#A260DB] font-header">
+              {"Create New Fable"}
+            </h2>
+
+            <div className="mb-4">
+              <label
+                htmlFor="title"
+                className="block mb-2 text-lg text-[#A260DB] outline-2 font-header"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full p-2 text-black rounded-lg"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="description"
+                className="block mb-2 text-lg text-[#A260DB] font-header "
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full p-2 text-black rounded-lg border-[#A260DB] border-2 focus:ring-[#6d4a93]"
+              />
+            </div>
+
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveStory}
+                className="bg-[#A260DB] hover:bg-[#8E60C0] text-white py-2 px-4 rounded-lg"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

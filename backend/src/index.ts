@@ -107,7 +107,7 @@ app.get("/books/:id", async (req, res) => {
 
 app.post("/books", async (req: Request, res: Response) => {
   try {
-    const { title, pages, userId } = req.body;
+    const { title, pages, description, userId } = req.body;
 
     // Check if pages is defined and is an array
     if (!pages || !Array.isArray(pages)) {
@@ -123,15 +123,19 @@ app.post("/books", async (req: Request, res: Response) => {
       imageUrl: page.imageUrl,
     }));
 
+    console.log(userId);
+
     // Create the book using your database model or ORM
     const newBook = await prisma.book.create({
       data: {
         title,
+        description,
         pages: {
           create: newPages,
         },
         user: {
-          connect: { id: userId },
+          // Change here to connect the user by email
+          connect: { email: userId }, // Use the email field to connect the user
         },
       },
     });
