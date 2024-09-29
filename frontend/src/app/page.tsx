@@ -31,7 +31,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="mt flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-16 w-full max-w-6xl mx-auto h-[600px]">
+      <main className="mt-0 flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-16 w-full max-w-6xl mx-auto h-[600px]">
         {/* Left Content (Text) */}
         <div className="text-center sm:text-left sm:w-1/2">
           <h1 className="text-4xl font-extrabold text-[#8E60C0] leading-tight font-header">
@@ -66,7 +66,7 @@ export default function Home() {
 
       {/* How It Works Section */}
       <section className="bg-[#8E60C0] text-white py-16 mt-16">
-        <div className="w-full max-w-6xl mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-16 h-[600px]">
+        <div className="w-full max-w-6xl mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-16 h-[650px]">
           {/* Left Content */}
           <div className="sm:w-1/2 text-center sm:text-left">
             <h2 className="text-5xl font-bold mb-6 font-header">
