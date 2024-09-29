@@ -1,10 +1,13 @@
 import express, { Request, Response } from 'express';
 import prisma from './prisma';
+import cors from 'cors';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
-app.use(express.json());
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript Express!');
@@ -41,24 +44,31 @@ app.get('/books/:id', async (req, res) => {
 app.post('/books', async (req: Request, res: Response) => {
   try {
     const { title, pages } = req.body;
+    
+    // Check if pages is defined and is an array
+    if (!pages || !Array.isArray(pages)) {
+      return res.status(400).json({ error: "Pages must be a valid array" });
+    }
+
+    const newPages = pages.map(page => ({
+      text: page.text,
+      imageUrl: page.imageUrl
+    }));
+
+    // Create the book using your database model or ORM
     const newBook = await prisma.book.create({
       data: {
         title,
         pages: {
-          create: pages.map((page: { text: string; imageUrl: string }) => ({
-            text: page.text,
-            imageUrl: page.imageUrl
-          }))
+          create: newPages
         }
-      },
-      include: {
-        pages: true // This will return the created pages along with the book
       }
     });
+
     res.status(201).json(newBook);
   } catch (error) {
-    console.error('Error creating book:', error);
-    res.status(500).json({ error: 'Unable to create book' });
+    console.error("Error creating book:", error);
+    res.status(500).json({ error: "Unable to create book" });
   }
 });
 
