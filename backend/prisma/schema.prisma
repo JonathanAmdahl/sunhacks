@@ -12,11 +12,19 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  books    Book[]
+}
 
 model Book {
   id    Int    @id @default(autoincrement())
   title String
   pages Page[]
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Page {
@@ -26,3 +34,5 @@ model Page {
   book     Book   @relation(fields: [bookId], references: [id])
   bookId   Int
 }
+
+

@@ -14,20 +14,23 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-export default function ImageGenerationDemo({ text }: ImageGenerationDemoProps) {
+export default function ImageGenerationDemo({
+  text,
+}: ImageGenerationDemoProps) {
   const width = 1024;
   const height = 1024;
-  const basePrompt = "Create a highly detailed and vibrant image in the style of art nouveau that captures the following scene from a story:";
+  const basePrompt =
+    "Create a highly detailed and vibrant image in the style of art nouveau that captures the following scene from a story:";
 
   dotenv.config(); // Load environment variables from .env file
 
-  const [imageUrl, setImageUrl] = useState("")
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     async function generateImage() {
       try {
-        if(text === '') return;
-      
+        if (text === "") return;
+
         const response = await openai.images.generate({
           model: "dall-e-3",
           prompt: basePrompt + text, // Using the state variable for the prompt
@@ -52,7 +55,13 @@ export default function ImageGenerationDemo({ text }: ImageGenerationDemoProps) 
         <p>{basePrompt + text}</p> {/* Display the prompt dynamically */}
       </div>
       {imageUrl ? (
-        <Image className={styles.image} src={imageUrl} width={width} height={height} alt="Generated" />
+        <Image
+          className={styles.image}
+          src={imageUrl}
+          width={width}
+          height={height}
+          alt="Generated"
+        />
       ) : (
         <p>Loading...</p>
       )}

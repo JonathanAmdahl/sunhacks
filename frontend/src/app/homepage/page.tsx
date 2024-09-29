@@ -9,24 +9,27 @@ export default function Home() {
       <header className="flex w-full items-center justify-between bg-[#8E60C0] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
           {/* Logo */}
-          <Image
-            src="/images/Owl.png"
-            alt="Fable logo"
-            width={75}
-            height={75}
-          />
-          <h1 className="text-3xl font-bold font-header">Fable</h1>
+          <Link href="/homepage">
+            <Image
+              src="/images/Owl.png"
+              alt="Fable logo"
+              width={75}
+              height={75}
+            />
+          </Link>
+          <Link href="/homepage">
+            <h1 className="text-3xl font-bold font-header">Fable</h1>
+          </Link>
         </div>
         <nav className="flex gap-6 items-center">
-          <a href="#" className="hover:underline">
-            Log In
-          </a>
-          <a
-            href="#"
-            className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition"
-          >
-            Register Now
-          </a>
+          <Link href="/login">
+            <p className="hover:underline font-body">Log In</p>
+          </Link>
+          <Link href="/register">
+            <p className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition font-body">
+              Register Now
+            </p>
+          </Link>
         </nav>
       </header>
 
@@ -42,7 +45,7 @@ export default function Home() {
             Transform your stories into vivid, captivating visuals with our
             AI-powered storytelling platform, or generate your own!
           </p>
-          <Link href="/create-story">
+          <Link href="/dashboard">
             {" "}
             {/* Link to new page */}
             <a className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">

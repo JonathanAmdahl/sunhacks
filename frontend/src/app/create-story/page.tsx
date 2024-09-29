@@ -1,10 +1,12 @@
-'use client'
+"use client";
 
 import Picture from "@/components/Picture";
 import Transcribes from "@/components/Transcribes";
 import { useRecordVoice } from "@/hooks/useRecordVoice";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import OpenAI from "openai";
+
+//FINISH MOVING PICTURE LOGIC HERE SO U CAN SAVE TO THE ARRAY
 
 interface StoryItem {
   text: string;
@@ -20,63 +22,55 @@ export default function CreateStory() {
   const { startRecording, stopRecording, text } = useRecordVoice();
   const [isRecording, setIsRecording] = useState(false);
   const [currentStory, setCurrentStory] = useState<StoryItem[]>([]);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const width = 1024;
   const height = 1024;
-  const basePrompt = "Create a highly detailed and vibrant image in the style of art nouveau that captures the following scene from a story:";
+  const basePrompt =
+    "Create a highly detailed and vibrant image in the style of art nouveau that captures the following scene from a story:";
 
-  const [imageUrl, setImageUrl] = useState("")
-
-  const generateImage = useCallback(async () => {
-    try {
-      if(text === '') return;
-    
-      const response = await openai.images.generate({
-        model: "dall-e-3",
-        prompt: basePrompt + text, // Using the state variable for the prompt
-        n: 1,
-        size: `${width}x${height}`,
-      });
-
-      const image_url = response.data[0]?.url || "";
-      console.log(`Generated image URL: ${image_url}`);
-      setImageUrl(image_url);
-      setIsDisabled(false)
-    } catch (error) {
-      console.error("Error generating image:", error);
-    }
-  }, [text])
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    async function generateImage() {
+      try {
+        if (text === "") return;
+
+        const response = await openai.images.generate({
+          model: "dall-e-2",
+          prompt: basePrompt + text, // Using the state variable for the prompt
+          n: 1,
+          size: `${width}x${height}`,
+        });
+
+        const image_url = response.data[0]?.url || "";
+        console.log(`Generated image URL: ${image_url}`);
+        setImageUrl(image_url);
+      } catch (error) {
+        console.error("Error generating image:", error);
+      }
+    }
+
     generateImage();
-  }, [generateImage]);
+  }, [text]);
 
   const handleStartRecording = () => {
-    if (isRecording) {
-      stopRecording();   
-      setIsRecording(false)
-    } 
-    else {
-      setCurrentStory([])
-      startRecording();
-      setIsRecording(true)
-    }
-  }
+    if (isRecording) stopRecording();
+    else startRecording();
+    setIsRecording((oldState) => !oldState);
+  };
 
   const handleNewPage = () => {
-    setCurrentStory(oldState => [...oldState, {text: text, imageUrl: imageUrl}]);
-    if(isRecording) {
-      setIsDisabled(true);
-      stopRecording()
-      startRecording()
+    setCurrentStory([...currentStory, { text: text, imageUrl: imageUrl }]);
+    //setText('Continue the story...');
+    if (isRecording) {
+      stopRecording();
+      startRecording();
     }
-  }
+  };
 
   const handleSaveStory = () => {
-    setIsRecording(false)
-    console.log(currentStory)
-    const pages = [...currentStory, {text: text, imageUrl: imageUrl}].filter(page => page.imageUrl && page.imageUrl !== "");
+    console.log(currentStory);
+  };
 
     const data = {
       title: `A Testing Story ${Math.round(Math.random() * 100)}`,
@@ -118,5 +112,22 @@ export default function CreateStory() {
           </button>}
         </div>
       </div>
-    )
+      <div className="w-full px-[10%] flex justify-between mt-10">
+        <button
+          onClick={handleStartRecording}
+          className="px-10 py-2 rounded-full text-3xl font-black text-white bg-[#8E60C0]"
+        >
+          {isRecording ? "Stop" : "Start"} Recording
+        </button>
+        {currentStory.length > 0 && !isRecording && (
+          <button
+            onClick={handleSaveStory}
+            className="text-3xl font-black text-white"
+          >
+            Save
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
