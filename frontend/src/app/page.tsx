@@ -1,93 +1,121 @@
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
-export default function dashboard() {
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#101010] text-white">
+    <div className="flex min-h-screen flex-col bg-gray-50 font-body">
       {/* Header */}
-      <header className="flex w-full items-center justify-between bg-[#A260DB] px-8 py-4 text-white">
+      <header className="flex w-full items-center justify-between bg-[#8E60C0] px-8 py-4 text-white">
         <div className="flex items-center gap-4">
           {/* Logo */}
           <Image
-            src="/images/Owl.png" // Assuming the logo is in the images folder
+            src="/images/Owl.png"
             alt="Fable logo"
-            width={100}
-            height={100}
+            width={75}
+            height={75}
           />
-          <h1 className="text-3xl font-bold">Fable Dashboard</h1>
+          <h1 className="text-3xl font-bold font-header">Fable</h1>
         </div>
-        <nav>
+        <nav className="flex gap-6 items-center">
           <a href="#" className="hover:underline">
-            Explore Community Fables
+            Log In
+          </a>
+          <a
+            href="#"
+            className="bg-[#FC9E59] text-white px-4 py-2 rounded-full hover:bg-[#E88A4D] transition"
+          >
+            Register Now
           </a>
         </nav>
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center mt-10 w-full max-w-4xl mx-auto">
-        {/* New Fable Button */}
-        <button className="bg-purple-600 hover:bg-purple-700 transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2">
-          + New Fable
-        </button>
+      <main className="mt-0 flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-16 w-full max-w-6xl mx-auto h-[600px]">
+        {/* Left Content (Text) */}
+        <div className="text-center sm:text-left sm:w-1/2">
+          <h1 className="text-4xl font-extrabold text-[#8E60C0] leading-tight font-header">
+            All-In-One Storytelling Hub.
+            <br /> Author. Generate. Save.
+          </h1>
+          <p className="mt-4 max-w-lg text-lg text-[#FC9E59] font-body">
+            Transform your stories into vivid, captivating visuals with our
+            AI-powered storytelling platform, or generate your own!
+          </p>
+          <Link href="/create-story">
+            {" "}
+            {/* Link to new page */}
+            <a className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
+              Create your story!
+            </a>
+          </Link>
+        </div>
 
-        {/* Fable List */}
-        <div className="mt-8 w-full space-y-6">
-          {/* Fable Item */}
-          {[1, 2].map((_, index) => (
-            <div
-              key={index}
-              className="bg-white text-purple-800 rounded-xl p-4 flex justify-between items-center shadow-lg"
-            >
-              <div>
-                <h2 className="text-2xl font-bold">Title...</h2>
-                <p className="text-md text-[#A260DB]">
-                  Description of the Fable...
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                {/* Edit and Delete Icons */}
-                <button className="text-[#8E60C0] hover:bg-[#7A4FA8]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.862 3.487l3.651 3.651a1.5 1.5 0 010 2.122l-9.464 9.464-4.497 1.121a.375.375 0 01-.463-.463l1.12-4.497 9.465-9.464a1.5 1.5 0 012.122 0z"
-                    />
-                  </svg>
-                </button>
-                <button className="text-red-600 hover:text-red-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
+        {/* Right Content (Image) */}
+        <div className="sm:w-1/2 flex justify-center sm:justify-end mt-0">
+          <Image
+            src="/images/illustration.png"
+            alt="Fable Owl illustration"
+            width={450}
+            height={450}
+            className="rounded-3xl"
+            priority
+          />
         </div>
       </main>
 
+      {/* How It Works Section */}
+      <section className="bg-[#8E60C0] text-white py-16 mt-16">
+        <div className="w-full max-w-6xl mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-16 h-[650px]">
+          {/* Left Content */}
+          <div className="sm:w-1/2 text-center sm:text-left">
+            <h2 className="text-5xl font-bold mb-6 font-header">
+              How it works
+            </h2>
+            <p className="text-xl mb-8">
+              Fable uses a combination of OpenAI tools for all your storytelling
+              needs.
+            </p>
+            <a
+              href="#"
+              className="mt-6 inline-block rounded-full bg-[#FC9E59] px-8 py-4 text-white text-lg font-semibold transition-all hover:bg-[#E88A4D]"
+            >
+              Explore community stories
+            </a>
+          </div>
+
+          {/* Right Content */}
+          <div className="sm:w-1/2 text-left space-y-8">
+            <div>
+              <h3 className="text-3xl font-bold mb-2 font-header">Author.</h3>
+              <p className="text-xl">
+                Talk to transcribe and illustrate your storytelling in real
+                time.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-3xl font-bold mb-2 font-header">Generate.</h3>
+              <p className="text-xl">
+                Bring your existing stories to life with custom voices and
+                illustrations.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-3xl font-bold mb-2 font-header">Save.</h3>
+              <p className="text-xl">
+                Collect all your authored and generated stories all in one
+                place.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-[#101010] text-white py-6">
-        <div className="flex justify-between items-center max-w-4xl mx-auto px-8">
-          <p>&copy; 2024 Fable, Inc. All rights reserved.</p>
-          <nav className="flex gap-6">
+      <footer className="bg-white text-[#8E60C0] py-8">
+        <div className="flex justify-between items-center max-w-6xl mx-auto px-8">
+          <p className="text-lg">© 2024 Fable, Inc. All rights reserved.</p>
+          <nav className="flex gap-8">
             <a href="#" className="hover:underline">
               Terms
             </a>

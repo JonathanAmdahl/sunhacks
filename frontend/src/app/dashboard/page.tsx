@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Fable {
   id: number;
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const [currentFable, setCurrentFable] = useState<Fable | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNew, setIsNew] = useState(false); // To differentiate between editing and adding a new fable
+  const [isPresentationOpen, setIsPresentationOpen] = useState(false); // To handle the presentation settings pop-up
 
   // Open Modal when Edit or Add button is clicked
   const openModal = (fable: Fable | null = null) => {
@@ -71,6 +73,16 @@ export default function Dashboard() {
   // Remove a Fable
   const handleRemove = (id: number) => {
     setFables(fables.filter((fable) => fable.id !== id)); // Filter out the fable with the matching ID
+  };
+
+  // Open the presentation pop-up
+  const openPresentationSettings = () => {
+    setIsPresentationOpen(true);
+  };
+
+  // Close the presentation pop-up
+  const closePresentationSettings = () => {
+    setIsPresentationOpen(false);
   };
 
   return (
@@ -116,9 +128,9 @@ export default function Dashboard() {
                 <p className="text-md text-[#A260DB]">{fable.description}</p>
               </div>
               <div className="flex items-center gap-4">
-                {/*Plat button*/}
+                {/* Play Button */}
                 <button
-                  onClick={() => console.log(`Playing fable: ${fable.id}`)} // Replace this with your play function
+                  onClick={openPresentationSettings} // Open the presentation pop-up
                   className="text-green-600 hover:text-green-800"
                 >
                   <svg
@@ -180,6 +192,34 @@ export default function Dashboard() {
           ))}
         </div>
       </main>
+
+      {/* Presentation Settings Pop-up */}
+      {isPresentationOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[#A260DB] text-white p-8 rounded-lg w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-4">Presentation Settings</h2>
+
+            <div className="mb-4">
+              <label htmlFor="reader" className="block mb-2">
+                Select Reader
+              </label>
+              <select id="reader" className="w-full p-2 text-black rounded-lg">
+                <option>Select reader...</option>
+                <option>Reader 1</option>
+                <option>Reader 2</option>
+              </select>
+            </div>
+
+            <div className="flex justify-end">
+              <Link href="/presentation-mode">
+                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
+                  Begin!
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal for Fable Settings */}
       {isModalOpen && currentFable && (
