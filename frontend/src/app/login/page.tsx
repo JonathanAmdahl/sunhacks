@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (e: { preventDefault: () => void; }) => {
+  const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
@@ -62,7 +62,7 @@ export default function Login() {
               type="email"
               required
               placeholder="Enter your email"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6d4a93]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -81,7 +81,7 @@ export default function Login() {
               type="password"
               required
               placeholder="Enter your password"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6d4a93]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -90,7 +90,7 @@ export default function Login() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#8E60C0] hover:bg-[#6d4a93] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6d4a93]"
             >
               Sign In
             </button>
@@ -100,7 +100,7 @@ export default function Login() {
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
           <Link href="/signup">
-            <p className="font-medium text-indigo-600 hover:text-indigo-500">
+            <p className="font-medium text-[#8E60C0] hover:text-[#6d4a93]">
               Sign Up
             </p>
           </Link>
