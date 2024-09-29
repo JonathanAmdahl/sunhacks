@@ -2,15 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-//import { useAuth } from "../AuthContext";
 
 export default function Home() {
-  //const { isLoggedIn, logout } = useAuth(); // Get authentication status
-
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/homepage";
   };
+
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 font-body">
@@ -31,7 +30,7 @@ export default function Home() {
           </Link>
         </div>
         <nav className="flex gap-6 items-center">
-          {localStorage.getItem("token") ? (
+          {isLoggedIn ? (
             <>
               <Link href="#" onClick={logout}>
                 <p className="hover:underline font-body">Log Out</p>
@@ -64,7 +63,7 @@ export default function Home() {
             Transform your stories into vivid, captivating visuals with our
             AI-powered storytelling platform, or generate your own!
           </p>
-          <Link href="/register">
+          <Link href={isLoggedIn ? "/dashboard" : "/register"}>
             <p className="mt-6 inline-block rounded-xl bg-[#8E60C0] px-6 py-3 text-white transition-all hover:bg-[#7A4FA8]">
               Create your story!
             </p>
