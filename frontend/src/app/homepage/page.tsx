@@ -1,12 +1,16 @@
-// Home.tsx
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useAuth } from "../AuthContext";
+//import { useAuth } from "../AuthContext";
 
 export default function Home() {
-  const { isLoggedIn, logout } = useAuth(); // Get authentication status
+  //const { isLoggedIn, logout } = useAuth(); // Get authentication status
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/homepage";
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 font-body">
@@ -27,7 +31,7 @@ export default function Home() {
           </Link>
         </div>
         <nav className="flex gap-6 items-center">
-          {isLoggedIn ? (
+          {localStorage.getItem("token") ? (
             <>
               <Link href="#" onClick={logout}>
                 <p className="hover:underline font-body">Log Out</p>

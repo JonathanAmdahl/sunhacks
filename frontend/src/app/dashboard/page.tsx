@@ -145,7 +145,7 @@ export default function Dashboard() {
       <main className="flex-grow flex flex-col items-start mt-10 w-full max-w-4xl mx-auto px-8">
         <div className="w-full">
           <button
-            className="bg-purple-600 hover:bg-purple-700 transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2 font-header"
+            className="bg-[#A260DB] hover:bg-[#8E60C0] transition text-white py-3 px-8 rounded-xl text-2xl font-bold gap-2 font-header"
             onClick={() => openModal(null)}
           >
             + New Fable
@@ -156,7 +156,7 @@ export default function Dashboard() {
           {fables.map((fable) => (
             <div
               key={fable.id}
-              className="bg-white text-purple-800 rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
+              className="bg-white text-[#A260DB]  rounded-xl p-4 flex justify-between items-center shadow-lg font-body"
             >
               <div>
                 <h2 className="text-2xl font-bold font-body">{fable.title}</h2>
@@ -311,7 +311,7 @@ export default function Dashboard() {
             <div className="flex justify-end">
               <Link href="/create-story">
                 <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                  className="bg-[#A260DB]  hover:text-[#8E60C0] text-white py-2 px-4 rounded"
                   onClick={handleSave}
                 >
                   Save

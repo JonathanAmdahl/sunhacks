@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  login: (token: string) => void;
   logout: () => void;
 }
 
@@ -15,7 +15,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  // Simulate a login (this should come from your authentication logic)
   const login = (token: string) => {
     setIsLoggedIn(true);
     localStorage.setItem("authToken", token); // Store token
@@ -28,8 +27,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Check if user is logged in on initial render
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsLoggedIn(true); // User is logged in if a token exists
+    }
   }, []);
 
   return (
