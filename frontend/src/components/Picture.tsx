@@ -47,7 +47,7 @@ export default function Transcribes({
         )}
       </div>
       <button
-        className="absolute bottom-0 right-0 mb-4 mr-4 text-3xl font-black text-white bg-[#8E60C0] px-4 py-2 rounded-full"
+        className="absolute bottom-0 right-0 mb-4 mr-4 text-3xl font-black text-white bg-[#8E60C0] hover:bg-[#7D4FAF] px-4 py-2 rounded-full"
         onClick={() => {
           setLoading(true); // Set loading to true when regenerating
           onRegenerate();
