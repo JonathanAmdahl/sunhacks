@@ -79,12 +79,16 @@ export default function CreateStory() {
           handleRecord={handleNewPage}
           isRecording={isRecording}
           text={text}
+          isDisabled={false}
         />
         <Picture
           text={text}
           imageUrl={imageUrl}
           width={width}
           height={height}
+          onRegenerate={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
       <div className="w-full px-[10%] flex justify-between mt-10">
