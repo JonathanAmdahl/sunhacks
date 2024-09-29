@@ -37,7 +37,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-900">Log In</h2>
         <p className="text-center text-gray-600">
@@ -83,7 +83,7 @@ export default function Login() {
               type="password"
               required
               placeholder="Enter your password"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6d4a93]"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8E60C0]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -92,7 +92,7 @@ export default function Login() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#8E60C0] hover:bg-[#6d4a93] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6d4a93]"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#A260DB] hover:bg-[#8E60C0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6d4a93]"
             >
               Log In
             </button>
@@ -102,7 +102,7 @@ export default function Login() {
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
           <Link href="/register">
-            <span className="font-medium text-[#8E60C0] hover:text-[#6d4a93]">
+            <span className="font-medium text-[#A260DB] hover:text-[#8E60C0]">
               Sign Up
             </span>
           </Link>
