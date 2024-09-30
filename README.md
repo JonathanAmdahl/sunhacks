@@ -8,3 +8,6 @@ Backend - Typescript w/ Express + MySQL
 2) npm i
 3) setup .env files based on the .env.example
 4) run the scripts in package.json
+
+# Video Demo as of 9/30/2024
+https://www.loom.com/share/eaad89ae2e5e44d78ef5bb6a18f6704b
