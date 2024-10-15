@@ -11,3 +11,6 @@ Backend - Typescript w/ Express + MySQL
 
 # Video Demo as of 9/30/2024
 https://www.loom.com/share/eaad89ae2e5e44d78ef5bb6a18f6704b
+
+# Article featuring us and sunhacks:
+https://fullcircle.asu.edu/students/sunhacks-bright-minds-hack-for-good-and-fun/
